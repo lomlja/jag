@@ -396,7 +396,7 @@ function closeSidebar() {
 <script>
     document.addEventListener('copy', function (e) {
         var selectedText = window.getSelection().toString();
-        var formattedText = "<reply>" + selectedText + "</reply> -- ";
+        var formattedText = "<reply>" + selectedText + "</reply><br>  ";
         e.clipboardData.setData('text/html', formattedText);
         e.clipboardData.setData('text/plain', formattedText);
         e.preventDefault();
