@@ -17,6 +17,8 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <link rel="icon" type="image/x-icon" href="images/icon.ico">
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
     <title>Georgy | Mystic</title>
 </head>
 <style>
@@ -77,13 +79,13 @@
     const presenceRef = firebase.database().ref("presence");
   
     function setOnlineStatus() {
-      presenceRef.child("user1").set("online");
+      presenceRef.child("user2").set("online");
     }
   
     function setOfflineStatus() {
       const options = { hour: '2-digit', minute: '2-digit', hour12: true };
       const lastSeen = new Date().toLocaleTimeString([], options);
-      presenceRef.child("user1").set("last seen at " + lastSeen);
+      presenceRef.child("user2").set("last seen at " + lastSeen);
     }
   
     setOnlineStatus();
@@ -96,26 +98,18 @@
       }
     });
   
-    presenceRef.child("user2").on("value", function (snapshot) {
+    presenceRef.child("user1").on("value", function (snapshot) {
       const presence = snapshot.val();
-      
-      // Update the first instance of the status for User 2
-      const statusElement1 = document.getElementById("statusUser2_1");
-      if (presence === "online") {
-        statusElement1.innerText = "online";
-      } else {
-        statusElement1.innerText = presence;
-      }
+      const statusElement = document.getElementById("statusUser1");
   
-      // Update the second instance of the status for User 2
-      const statusElement2 = document.getElementById("statusUser2_2");
       if (presence === "online") {
-        statusElement2.innerText = "online";
+        statusElement.innerText = "online";
       } else {
-        statusElement2.innerText = presence;
+        statusElement.innerText = presence;
       }
     });
 </script>
+<script src="js/app.js"></script>
     <body>
         <div class="container">
             <div class="sidebar">
@@ -145,11 +139,19 @@
                 <div class="chat-header" onclick="openNav()">
                     <div class="contact-profile" id="contactProfile" >
                         <img src="images/pfp/group.png" alt="Profile Picture">
-                        <h1 class="nameuser">Jaita & Aravind</h1>
-                        <div class="my-div" id="triggerDiv">
+                        <div>
+                            <h1 class="nameuser">Jaita & Aravind</h1>
+                            <p id="statusUser1" class="onlinestatustop">connecting...</p>
                             
+                            
+
+
+                        </div>
+                        
+                        <div class="my-div" id="triggerDiv">
                             <ion-icon name="chevron-forward-outline" class="backbtn"></ion-icon>
                           </div>
+                          
                           
                     </div>
                     
