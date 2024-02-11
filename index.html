@@ -79,13 +79,13 @@
     const presenceRef = firebase.database().ref("presence");
   
     function setOnlineStatus() {
-      presenceRef.child("user2").set("online");
+      presenceRef.child("user1").set("online");
     }
   
     function setOfflineStatus() {
       const options = { hour: '2-digit', minute: '2-digit', hour12: true };
       const lastSeen = new Date().toLocaleTimeString([], options);
-      presenceRef.child("user2").set("last seen at " + lastSeen);
+      presenceRef.child("user1").set("last seen at " + lastSeen);
     }
   
     setOnlineStatus();
@@ -98,14 +98,23 @@
       }
     });
   
-    presenceRef.child("user1").on("value", function (snapshot) {
+    presenceRef.child("user2").on("value", function (snapshot) {
       const presence = snapshot.val();
-      const statusElement = document.getElementById("statusUser1");
-  
+      
+      // Update the first instance of the status for User 2
+      const statusElement1 = document.getElementById("statusUser2_1");
       if (presence === "online") {
-        statusElement.innerText = "online";
+        statusElement1.innerText = "online";
       } else {
-        statusElement.innerText = presence;
+        statusElement1.innerText = presence;
+      }
+  
+      // Update the second instance of the status for User 2
+      const statusElement2 = document.getElementById("statusUser2_2");
+      if (presence === "online") {
+        statusElement2.innerText = "online";
+      } else {
+        statusElement2.innerText = presence;
       }
     });
 </script>
@@ -141,7 +150,7 @@
                         <img src="images/pfp/group.png" alt="Profile Picture">
                         <div>
                             <h1 class="nameuser">Jaita & Aravind</h1>
-                            <p id="statusUser1" class="onlinestatustop">connecting...</p>
+                            <p id="statusUser2_1" class="onlinestatustop">connecting...</p>
                             
                             
 
@@ -162,6 +171,7 @@
                     </center>
                     <!-- Chat messages will be appended here dynamically -->
                 </div>
+                <p id="statusUser2_2" class="onlinestatusbottom">connecting...</p>
                 <form onsubmit="return false;" id="messageForm">
                     <div id="sendMsg" class="type">
                         <input type="text" id="msgTxt" placeholder="Message Jaita & Aravind" class="messagetext">
